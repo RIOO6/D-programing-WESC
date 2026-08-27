@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WESC Countinuos Training Training Center</title>
@@ -688,12 +689,50 @@
       }
     });
 
-    document.getElementById('applicationForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Thank you for applying! We will contact you shortly.');
-      modal.classList.remove('active');
-    });
+    // 1. Initialize Supabase (Make sure your real URL and Key are pasted here)
+const SUPABASE_URL = 'https://your-project-id.supabase.co';
+const SUPABASE_ANON_KEY = 'your-anon-key-here';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// 2. Form Submission Handler
+const applicationForm = document.getElementById('applicationForm');
+
+applicationForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const submitBtn = applicationForm.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.innerText = 'Submitting...';
+
+  // Read form input values
+  const courseName = document.getElementById('selectedCourseInput').value;
+  const fullName = applicationForm.querySelector('input[placeholder="John Doe"]').value;
+  const email = applicationForm.querySelector('input[type="email"]').value;
+  const phone = applicationForm.querySelector('input[type="tel"]').value;
+
+  // Insert into your Supabase table
+  const { data, error } = await supabaseClient
+    .from('registrations') 
+    .insert([
+      { 
+        name: fullName, 
+        email: email, 
+        phone: phone, 
+        course: courseName 
+      }
+    ]);
+
+  if (error) {
+    alert('Submission failed: ' + error.message);
+  } else {
+    alert('Thank you! Your application has been registered successfully.');
+    applicationForm.reset();
+    document.getElementById('applyModal').classList.remove('active');
+  }
+
+  submitBtn.disabled = false;
+  submitBtn.innerText = 'Submit Application';
+});
     // 3. FAQ Accordion Logic
     const faqItems = document.querySelectorAll('.faq-item');
 
