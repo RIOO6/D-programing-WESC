@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- 2. Your custom form handling script goes SECOND -->
+<script>
+  const SUPABASE_URL = 'https://jopkvmozlubszpddkobj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcGt2bW96bHVic3pwZGRrb2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3OTU2MzIsImV4cCI6MjEwMzM3MTYzMn0.mzDjqkTRzDS0jwT5v-IR6Okt4PsHc33Ua4xu-grgTVU';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // ... rest of your code ...
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WESC Countinuos Training Training Center</title>
@@ -688,13 +696,7 @@
         modal.classList.remove('active');
       }
     });
-
-    // 1. Initialize Supabase (Make sure your real URL and Key are pasted here)
-const SUPABASE_URL = 'https://your-project-id.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key-here';
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// 2. Form Submission Handler
+  // 2. Form Submission Handler
 const applicationForm = document.getElementById('applicationForm');
 
 applicationForm.addEventListener('submit', async (e) => {
