@@ -714,7 +714,7 @@ applicationForm.addEventListener('submit', async (e) => {
 
   // Insert into your Supabase table
   const { data, error } = await supabaseClient
-    .from('registrations') 
+    .from('regestration') 
     .insert([
       { 
         name: fullName, 
