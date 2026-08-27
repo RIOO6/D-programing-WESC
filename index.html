@@ -587,6 +587,49 @@
       .hero h1 { font-size: 2.3rem; }
       .stats-container { grid-template-columns: 1fr; }
     }
+    /* --- TOAST NOTIFICATIONS --- */
+    .toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 2000;
+      display: grid;
+      gap: 12px;
+      width: min(380px, calc(100% - 32px));
+    }
+
+    .toast {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+      color: #fff;
+      background: var(--secondary);
+      border-left: 4px solid var(--primary);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateX(30px);
+      animation: toastIn 0.35s ease forwards;
+    }
+
+    .toast.error { border-left-color: #ef4444; }
+    .toast i { color: #60a5fa; margin-top: 3px; }
+    .toast.error i { color: #f87171; }
+    .toast p { flex: 1; }
+    .toast-close {
+      border: 0;
+      background: transparent;
+      color: #cbd5e1;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .toast.removing { animation: toastOut 0.3s ease forwards; }
+
+    @keyframes toastIn { to { opacity: 1; transform: translateX(0); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
+
   </style>
 </head>
 <body>
@@ -826,6 +869,8 @@
     </div>
   </div>
 
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
   <!-- FOOTER -->
   <footer>
     <div class="container">
@@ -906,6 +951,25 @@
 
     // 5. Form Submission Handler (Supabase)
     const applicationForm = document.getElementById('applicationForm');
+    const toastContainer = document.getElementById('toastContainer');
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type === 'error' ? 'error' : ''}`;
+      toast.setAttribute('role', type === 'error' ? 'alert' : 'status');
+      toast.innerHTML = `
+        <i class="fas ${type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i>
+        <p>${message}</p>
+        <button class="toast-close" aria-label="Close notification">&times;</button>`;
+
+      const removeToast = () => {
+        toast.classList.add('removing');
+        toast.addEventListener('animationend', () => toast.remove(), { once: true });
+      };
+      toast.querySelector('.toast-close').addEventListener('click', removeToast);
+      toastContainer.appendChild(toast);
+      setTimeout(removeToast, 5000);
+    }
 
     applicationForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -929,9 +993,9 @@
         }]);
 
       if (error) {
-        alert('Submission failed: ' + error.message);
+        showToast('Submission failed: ' + error.message, 'error');
       } else {
-        alert('Thank you! Your application has been registered successfully.');
+        showToast('Thank you! Your application has been registered successfully.');
         applicationForm.reset();
         modal.classList.remove('active');
       }
