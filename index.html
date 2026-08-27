@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Training Center</title>
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* --- CSS VARIABLES & RESET --- */
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --secondary: #0f172a;
+      --accent: #f59e0b;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #334155;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* --- REUSABLE COMPONENTS --- */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-padding {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: var(--text-light);
+      font-size: 1.1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    /* --- NAVIGATION --- */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--primary); }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(37, 99, 235, 0.8)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80') center/cover;
+      color: #fff;
+      padding: 120px 0;
+      text-align: center;
+    }
+
+    .hero h1 { font-size: 3rem; margin-bottom: 20px; }
+    .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px; color: #e2e8f0; }
+
+    /* --- ABOUT SECTION --- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-img img {
+      width: 100%;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .stat-box {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .stat-box h3 { font-size: 1.8rem; color: var(--primary); }
+
+    /* --- COURSES SECTION & FILTER --- */
+    .filter-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: #e2e8f0;
+      color: var(--text);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .course-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+    }
+
+    .course-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .course-content {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .badge {
+      align-self: flex-start;
+      background: #dbeafe;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .course-content h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--secondary); }
+    .course-content p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
+
+    .course-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* --- VIDEOS SECTION --- */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-info { padding: 20px; }
+    .video-info h3 { font-size: 1.1rem; color: var(--secondary); }
+
+    /* --- FAQ ACCORDION --- */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      margin-bottom: 15px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 20px;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 20px;
+      color: var(--text-light);
+    }
+
+    .faq-item.active .faq-answer {
+      padding-bottom: 20px;
+    }
+
+    /* --- MODAL (APPLY NOW) --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: #fff;
+      padding: 40px;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--secondary);
+      color: #fff;
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .footer-links a { color: #94a3b8; text-decoration: none; font-size: 1.2rem; }
+    .footer-links a:hover { color: #fff; }
+
+    /* --- RESPONSIVE DESIGN --- */
+    @media (max-width: 768px) {
+      .nav-links { display: none; } /* Add responsive hamburger JS if needed */
+      .hero h1 { font-size: 2.2rem; }
+      .stats-container { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="logo">APEX<span>CENTER</span></a>
+        <ul class="nav-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="#videos">Videos</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <a href="#courses" class="btn">Explore Courses</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <h1>Advance Your Career With Real Skills</h1>
+      <p>Industry-led practical training designed to prepare you for high-demand job roles worldwide.</p>
+      <a href="#courses" class="btn">Get Started Today</a>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section-padding">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 style="font-size: 2rem; color: var(--secondary); margin-bottom: 15px;">Why Choose Our Academy?</h2>
+          <p style="margin-bottom: 15px;">We provide high-impact, practical training tailored to real-world demands. Our hands-on approach ensures every student masters actionable technical and professional competencies.</p>
+          <p>Whether you're starting from scratch or looking to sharpen advanced skills, our structured pathways guide you every step of the way.</p>
+          
+          <div class="stats-container">
+            <div class="stat-box">
+              <h3>95%</h3>
+              <p>Hire Rate</p>
+            </div>
+            <div class="stat-box">
+              <h3>50+</h3>
+              <p>Courses</p>
+            </div>
+            <div class="stat-box">
+              <h3>10k+</h3>
+              <p>Graduates</p>
+            </div>
+          </div>
+        </div>
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80" alt="Training Session">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES AVAILABLE SECTION -->
+  <section id="courses" class="section-padding" style="background-color: #fff;">
+    <div class="container">
+      <div class="section-title">
+        <h2>Available Courses</h2>
+        <p>Choose from our specialized career pathways</p>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All Courses</button>
+        <button class="filter-btn" data-filter="tech">Tech & Data</button>
+        <button class="filter-btn" data-filter="business">Business</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+      </div>
+
+      <div class="courses-grid">
+        <!-- Course 1 -->
+        <div class="course-card" data-category="tech">
+          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Course Image">
+          <div class="course-content">
+            <span class="badge">Tech & Data</span>
+            <h3>Cybersecurity Essentials</h3>
+            <p>Master network security, ethical hacking, and vulnerability monitoring fundamentals in active hands-on labs.</p>
+            <div class="course-footer">
+              <span style="font-weight: bold; color: var(--primary);">8 Weeks</span>
+              <button class="btn open-modal-btn" data-course="Cybersecurity Essentials">Apply Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="course-card" data-category="tech">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Course Image">
+          <div class="course-content">
+            <span class="badge">Tech & Data</span>
+            <h3>Data Analytics Bootcamp</h3>
+            <p>Learn Python, SQL, and Pandas to transform complex raw datasets into actionable insights.</p>
+            <div class="course-footer">
+              <span style="font-weight: bold; color: var(--primary);">12 Weeks</span>
+              <button class="btn open-modal-btn" data-course="Data Analytics Bootcamp">Apply Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="course-card" data-category="business">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="Course Image">
+          <div class="course-content">
+            <span class="badge">Business</span>
+            <h3>Digital Marketing Strategy</h3>
+            <p>Develop high-converting campaign strategies across SEO, social channels, and performance advertising metrics.</p>
+            <div class="course-footer">
+              <span style="font-weight: bold; color: var(--primary);">6 Weeks</span>
+              <button class="btn open-modal-btn" data-course="Digital Marketing Strategy">Apply Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 4 -->
+        <div class="course-card" data-category="design">
+          <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=600&q=80" alt="Course Image">
+          <div class="course-content">
+            <span class="badge">Design</span>
+            <h3>UI/UX Product Design</h3>
+            <p>Build intuitive user interfaces and modern wireframes utilizing Figma and user-centric testing workflows.</p>
+            <div class="course-footer">
+              <span style="font-weight: bold; color: var(--primary);">10 Weeks</span>
+              <button class="btn open-modal-btn" data-course="UI/UX Product Design">Apply Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS SECTION -->
+  <section id="videos" class="section-padding">
+    <div class="container">
+      <div class="section-title">
+        <h2>Campus & Workshop Videos</h2>
+        <p>Take a peak inside our interactive practical sessions</p>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-wrapper">
+            <!-- Replace iframe SRC with your video link -->
+            <iframe src="https://www.youtube.com/embed/gT_f22j652U" allowfullscreen></iframe>
+          </div>
+          <div class="video-info">
+            <h3>Student Experience & Lab Work</h3>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/LFAA2A9y6E4" allowfullscreen></iframe>
+          </div>
+          <div class="video-info">
+            <h3>Course Overview & Methodology</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section id="faq" class="section-padding" style="background-color: #fff;">
+    <div class="container">
+      <div class="section-title">
+        <h2>Frequently Asked Questions</h2>
+        <p>Everything you need to know about enrollment</p>
+      </div>
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question">Are these classes live or recorded? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>We offer both options! We have instructor-led live physical/online workshops as well as self-paced modules.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Will I get a certificate upon completion? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>Yes, all graduates receive an industry-recognized accredited certificate after finishing coursework and practical projects.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What prerequisites are required? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>Most of our introductory programs require no prior experience. Advanced certifications require basic knowledge of the topic.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPLY NOW MODAL -->
+  <div class="modal-overlay" id="applyModal">
+    <div class="modal">
+      <span class="close-modal">&times;</span>
+      <h2 style="margin-bottom: 10px; color: var(--secondary);">Course Registration</h2>
+      <p style="color: var(--text-light); margin-bottom: 20px;">Complete the form below to secure your spot.</p>
+      <form id="applicationForm">
+        <div class="form-group">
+          <label>Selected Course</label>
+          <input type="text" id="selectedCourseInput" readonly style="background-color: #f1f5f9;">
+        </div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" required placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" required placeholder="+1 234 567 890">
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Submit Application</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <h3>APEX TRAINING CENTER</h3>
+      <div class="footer-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p>&copy; 2026 Apex Training Center. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE JAVASCRIPT -->
+  <script>
+    // 1. Course Filtering Logic
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const courseCards = document.querySelectorAll('.course-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Toggle active button class
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filterValue = button.getAttribute('data-filter');
+
+        courseCards.forEach(card => {
+          if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // 2. Apply Now Modal Logic
+    const modal = document.getElementById('applyModal');
+    const openModalBtns = document.querySelectorAll('.open-modal-btn');
+    const closeModal = document.querySelector('.close-modal');
+    const courseInput = document.getElementById('selectedCourseInput');
+
+    openModalBtns.forEach(button => {
+      button.addEventListener('click', () => {
+        const courseName = button.getAttribute('data-course');
+        courseInput.value = courseName;
+        modal.classList.add('active');
+      });
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    document.getElementById('applicationForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you for applying! We will contact you shortly.');
+      modal.classList.remove('active');
+    });
+
+    // 3. FAQ Accordion Logic
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        const isOpen = item.classList.contains('active');
+        
+        // Close all items
+        faqItems.forEach(i => {
+          i.classList.remove('active');
+          i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Toggle current if it was closed
+        if (!isOpen) {
+          item.classList.add('active');
+          const answer = item.querySelector('.faq-answer');
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
