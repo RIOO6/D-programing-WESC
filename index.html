@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WESC Continuous Training Center</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
   <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -14,16 +18,16 @@
   <style>
     /* --- CSS VARIABLES & RESET --- */
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --secondary: #0f172a;
-      --accent: #f59e0b;
-      --bg-light: #f8fafc;
+      --primary: #155eef;
+      --primary-hover: #0b46c5;
+      --secondary: #10233f;
+      --accent: #f2b544;
+      --bg-light: #f4f7f2;
       --card-bg: #ffffff;
-      --text: #334155;
-      --text-light: #64748b;
-      --border: #e2e8f0;
-      --radius: 16px;
+      --text: #344256;
+      --text-light: #6b7788;
+      --border: #dce4e0;
+      --radius: 12px;
       --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -33,7 +37,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'DM Sans', system-ui, sans-serif;
     }
 
     html {
@@ -68,7 +72,8 @@
       color: var(--secondary);
       margin-bottom: 12px;
       font-weight: 700;
-      letter-spacing: -0.5px;
+      letter-spacing: 0;
+      font-family: 'Space Grotesk', sans-serif;
     }
 
     .section-title p {
@@ -84,7 +89,7 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-hover));
       color: #fff;
       padding: 12px 28px;
-      border-radius: 30px;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
       border: none;
@@ -116,7 +121,7 @@
 
     /* --- NAVIGATION (GLASSMORPHISM) --- */
     header {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(244, 247, 242, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 1px 15px rgba(0, 0, 0, 0.05);
@@ -130,7 +135,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 75px;
+      height: 82px;
     }
 
     /* LOGO AREA */
@@ -138,14 +143,14 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 1.4rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--secondary);
       text-decoration: none;
     }
 
     .logo-img {
-      height: 100px;
+      height: 58px;
       width: auto;
       object-fit: contain;
       border-radius: 50px;
@@ -158,6 +163,17 @@
 
     .logo span { color: var(--primary); }
 
+    .logo small {
+      display: block;
+      color: var(--text-light);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+
     .nav-links {
       display: flex;
       list-style: none;
@@ -167,7 +183,7 @@
     .nav-links a {
       text-decoration: none;
       color: var(--text);
-      font-weight: 600;
+      font-weight: 500;
       position: relative;
       padding: 5px 0;
       transition: var(--transition);
@@ -191,35 +207,95 @@
     /* --- HERO SECTION --- */
     .hero {
       position: relative;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(37, 99, 235, 0.78)), 
+      background: linear-gradient(105deg, rgba(16, 35, 63, 0.97) 0%, rgba(16, 35, 63, 0.88) 52%, rgba(21, 94, 239, 0.58) 100%), 
                   url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80') center/cover;
       color: #fff;
-      padding: 140px 0 120px;
-      text-align: center;
+      padding: 112px 0 108px;
+      text-align: left;
       overflow: hidden;
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
-      max-width: 750px;
+      max-width: 1120px;
       margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+      align-items: center;
+      gap: 80px;
+    }
+
+    .hero-copy { max-width: 700px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 30px;
+      height: 2px;
+      background: var(--accent);
     }
 
     .hero h1 {
-      font-size: 3.2rem;
+      font-size: clamp(2.7rem, 5vw, 4.7rem);
       margin-bottom: 22px;
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.2;
       animation: fadeInUp 0.8s ease-out;
     }
 
     .hero p {
-      font-size: 1.25rem;
-      margin: 0 auto 35px;
+      font-size: 1.15rem;
+      max-width: 610px;
+      margin: 0 0 35px;
       color: #e2e8f0;
       animation: fadeInUp 1s ease-out;
     }
+
+    .hero-panel {
+      padding: 26px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-panel-label {
+      color: #b9c7d9;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .hero-panel h2 {
+      margin: 10px 0 22px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.7rem;
+      line-height: 1.15;
+    }
+
+    .hero-check {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: #eef4fa;
+      font-size: 0.92rem;
+      margin-top: 13px;
+    }
+
+    .hero-check i { color: var(--accent); }
 
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -234,13 +310,20 @@
       align-items: center;
     }
 
+    .about-text h2,
+    .course-content h3,
+    .video-info h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0;
+    }
+
     .about-img-wrapper {
       position: relative;
     }
 
     .about-img img {
       width: 100%;
-      border-radius: var(--radius);
+      border-radius: 8px;
       box-shadow: var(--shadow-lg);
       transition: var(--transition);
     }
@@ -298,7 +381,7 @@
       color: var(--text-light);
       border: 1px solid var(--border);
       padding: 10px 24px;
-      border-radius: 25px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
       transition: var(--transition);
@@ -328,6 +411,7 @@
       transition: var(--transition);
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     .course-card:hover {
@@ -365,7 +449,7 @@
       background: #dbeafe;
       color: var(--primary);
       padding: 5px 14px;
-      border-radius: 20px;
+      border-radius: 5px;
       font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.3px;
@@ -374,6 +458,16 @@
 
     .course-content h3 { font-size: 1.35rem; margin-bottom: 10px; color: var(--secondary); font-weight: 700; }
     .course-content p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 24px; flex-grow: 1; }
+
+    .course-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--text-light);
+      font-size: 0.82rem;
+      margin: -10px 0 20px;
+    }
+
+    .course-meta i { color: var(--primary); margin-right: 4px; }
 
     .course-footer {
       display: flex;
@@ -410,14 +504,50 @@
       height: 0;
     }
 
-    .video-wrapper iframe {
+    .video-wrapper iframe,
+    .video-wrapper video {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       border: 0;
+      object-fit: cover;
     }
+
+    .video-link {
+      position: absolute;
+      inset: 0;
+      display: block;
+      overflow: hidden;
+    }
+
+    .video-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .video-link:hover img { transform: scale(1.04); }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      width: 58px;
+      height: 58px;
+      place-items: center;
+      color: #fff;
+      background: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+      transform: translate(-50%, -50%);
+      transition: var(--transition);
+    }
+
+    .video-link:hover .play-button { background: var(--primary-hover); transform: translate(-50%, -50%) scale(1.08); }
 
     .video-info { padding: 22px; }
     .video-info h3 { font-size: 1.15rem; color: var(--secondary); font-weight: 700; }
@@ -586,6 +716,10 @@
       .nav-links { display: none; }
       .hero h1 { font-size: 2.3rem; }
       .stats-container { grid-template-columns: 1fr; }
+      .hero-content { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 80px 0; }
+      .hero-panel { max-width: 520px; }
+      .logo small { display: none; }
     }
     /* --- TOAST NOTIFICATIONS --- */
     .toast-container {
@@ -641,7 +775,7 @@
         <a href="#" class="logo">
           <!-- Insert your logo image path here -->
           <img src="1767777850360.png" alt="WESC Logo" class="logo-img">
-          <span>WESC </span>Training Center 
+          <div><span>WESC</span> Training Center<small>Practice. Progress. Purpose.</small></div>
         </a>
         <ul class="nav-links">
           <li><a href="#about">About Us</a></li>
@@ -658,9 +792,19 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Advance Your Career With Real Skills</h1>
-        <p>Industry-led practical training designed to prepare you for high-demand job roles worldwide.</p>
-        <a href="#courses" class="btn"><i class="fas fa-arrow-right"></i> Get Started Today</a>
+        <div class="hero-copy">
+          <span class="eyebrow">Continuous learning, made practical</span>
+          <h1>Build the skill. Become the person.</h1>
+          <p>WESC turns ambitious learners into confident professionals through hands-on training, guided projects, and skills that hold up in the real world.</p>
+          <a href="#courses" class="btn"><i class="fas fa-arrow-right"></i> Find your pathway</a>
+        </div>
+        <aside class="hero-panel" aria-label="WESC learning approach">
+          <span class="hero-panel-label">The WESC approach</span>
+          <h2>Learn by doing, supported by people who have done it.</h2>
+          <div class="hero-check"><i class="fas fa-check-circle"></i> Project-based learning</div>
+          <div class="hero-check"><i class="fas fa-check-circle"></i> Career-ready feedback</div>
+          <div class="hero-check"><i class="fas fa-check-circle"></i> Flexible learning paths</div>
+        </aside>
       </div>
     </div>
   </section>
@@ -670,22 +814,23 @@
     <div class="container">
       <div class="about-grid fade-in">
         <div class="about-text">
-          <h2 style="font-size: 2.1rem; color: var(--secondary); margin-bottom: 18px; font-weight: 700;">Why Choose Our Academy?</h2>
+          <span class="eyebrow" style="color: var(--primary); margin-bottom: 14px;">More than a certificate</span>
+          <h2 style="font-size: 2.1rem; color: var(--secondary); margin-bottom: 18px; font-weight: 700;">A place to practice your next chapter.</h2>
           <p style="margin-bottom: 15px;">We provide high-impact, practical training tailored to real-world demands. Our hands-on approach ensures every student masters actionable technical and professional competencies.</p>
           <p>Whether you're starting from scratch or looking to sharpen advanced skills, our structured pathways guide you every step of the way.</p>
           
           <div class="stats-container">
             <div class="stat-box">
               <h3>95%</h3>
-              <p>Hire Rate</p>
+              <p>Completion rate</p>
             </div>
             <div class="stat-box">
               <h3>50+</h3>
-              <p>Courses</p>
+              <p>Active pathways</p>
             </div>
             <div class="stat-box">
               <h3>10k+</h3>
-              <p>Graduates</p>
+              <p>Learners supported</p>
             </div>
           </div>
         </div>
@@ -710,8 +855,8 @@
       <div class="filter-buttons fade-in">
         <button class="filter-btn active" data-filter="all">All Courses</button>
         <button class="filter-btn" data-filter="tech">Tech & Data</button>
-        <button class="filter-btn" data-filter="business">Business</button>
-        <button class="filter-btn" data-filter="design">Design</button>
+        <button class="filter-btn" data-filter="health">Health & Safety</button>
+        <button class="filter-btn" data-filter="languages">Languages</button>
       </div>
 
       <div class="courses-grid">
@@ -723,6 +868,7 @@
           <div class="course-content">
             <span class="badge">Tech & Data</span>
             <h3>اساسيات الامن السبراني</h3>
+            <div class="course-meta"><span><i class="far fa-clock"></i> 8 weeks</span><span><i class="fas fa-signal"></i> Beginner</span></div>
             <p>Master network security, ethical hacking, and vulnerability monitoring fundamentals in active hands-on labs.</p>
             <div class="course-footer">
               <span style="font-weight: 700; color: var(--primary);">8 Weeks</span>
@@ -739,6 +885,7 @@
           <div class="course-content">
             <span class="badge">Tech & Data</span>
             <h3>كورس تحليل البيانات</h3>
+            <div class="course-meta"><span><i class="far fa-clock"></i> 12 weeks</span><span><i class="fas fa-signal"></i> Intermediate</span></div>
             <p>Learn Python, SQL, and Pandas to transform complex raw datasets into actionable insights.</p>
             <div class="course-footer">
               <span style="font-weight: 700; color: var(--primary);">12 Weeks</span>
@@ -748,33 +895,35 @@
         </div>
 
         <!-- Course 3 -->
-        <div class="course-card fade-in" data-category="business">
+        <div class="course-card fade-in" data-category="health">
           <div class="course-img-wrapper">
             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="Course Image">
           </div>
           <div class="course-content">
-            <span class="badge">Business</span>
+            <span class="badge">Health & Safety</span>
             <h3>كورس الاسعافات الاولية والتمريض</h3>
-            <p>Develop high-converting campaign strategies across SEO, social channels, and performance advertising metrics.</p>
+            <div class="course-meta"><span><i class="far fa-clock"></i> 6 weeks</span><span><i class="fas fa-signal"></i> Beginner</span></div>
+            <p>Build calm, confident first-response skills through practical scenarios covering first aid, patient care, and emergency readiness.</p>
             <div class="course-footer">
               <span style="font-weight: 700; color: var(--primary);">6 Weeks</span>
-              <button class="btn open-modal-btn" data-course="Digital Marketing Strategy">Apply Now</button>
+              <button class="btn open-modal-btn" data-course="First Aid & Nursing Fundamentals">Apply Now</button>
             </div>
           </div>
         </div>
 
         <!-- Course 4 -->
-        <div class="course-card fade-in" data-category="design">
+        <div class="course-card fade-in" data-category="languages">
           <div class="course-img-wrapper">
             <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=600&q=80" alt="Course Image">
           </div>
           <div class="course-content">
-            <span class="badge">Design</span>
+            <span class="badge">Languages</span>
             <h3>كورس اللغة الانجليزية</h3>
-            <p>Build intuitive user interfaces and modern wireframes utilizing Figma and user-centric testing workflows.</p>
+            <div class="course-meta"><span><i class="far fa-clock"></i> 10 weeks</span><span><i class="fas fa-signal"></i> All levels</span></div>
+            <p>Strengthen practical English for study, work, and everyday communication with guided conversation and writing practice.</p>
             <div class="course-footer">
               <span style="font-weight: 700; color: var(--primary);">10 Weeks</span>
-              <button class="btn open-modal-btn" data-course="UI/UX Product Design">Apply Now</button>
+              <button class="btn open-modal-btn" data-course="English Language Program">Apply Now</button>
             </div>
           </div>
         </div>
@@ -792,7 +941,10 @@
       <div class="video-grid">
         <div class="video-card fade-in">
           <div class="video-wrapper">
-            <iframe src="VID_20260307_132544.mp4" allowfullscreen></iframe>
+            <video controls preload="metadata" poster="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80">
+              <source src="VID_20260307_132544.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
           </div>
           <div class="video-info">
             <h3>Student Experience & Lab Work</h3>
@@ -801,7 +953,10 @@
 
         <div class="video-card fade-in">
           <div class="video-wrapper">
-            <iframe src="https://youtu.be/8qQW4LTWgtc?si=Tt9VqncsIlHOZpVj" allowfullscreen></iframe>
+            <a class="video-link" href="https://www.youtube.com/watch?v=8qQW4LTWgtc" target="_blank" rel="noopener noreferrer" aria-label="Watch course overview and methodology on YouTube">
+              <img src="https://img.youtube.com/vi/8qQW4LTWgtc/hqdefault.jpg" alt="Course overview video thumbnail">
+              <span class="play-button"><i class="fas fa-play"></i></span>
+            </a>
           </div>
           <div class="video-info">
             <h3>Course Overview & Methodology</h3>
@@ -993,7 +1148,7 @@
         }]);
 
       if (error) {
-        showToast('Submission failed: ' + error.message, 'error');
+        showToast('Submission failed check your network: ' + error.message, 'error');
       } else {
         showToast('Thank you! Your application has been registered successfully.');
         applicationForm.reset();
