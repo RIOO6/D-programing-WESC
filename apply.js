@@ -27,17 +27,27 @@ form.addEventListener('submit', async (event) => {
   status.textContent = '';
   status.className = 'form-status';
 
-  const { error } = await supabaseClient.from('applications').insert([applicant]);
+  try {
+    const { error } = await supabaseClient.from('applications').insert([applicant]);
 
-  if (error) {
-    status.textContent = 'We could not submit your application. Please try again.';
+    if (error) {
+      console.error('Application submission failed:', error);
+      status.textContent = error.code === 'PGRST205'
+        ? 'The applications table is not set up yet. Run database.sql in Supabase SQL Editor.'
+        : `Application failed: ${error.message}`;
+      status.classList.add('error');
+    } else {
+      status.textContent = 'Application received. Our team will contact you soon.';
+      status.classList.add('success');
+      form.reset();
+    }
+  } catch (submissionError) {
+    console.error('Application submission error:', submissionError);
+    status.textContent = 'Could not reach the database. Check your connection and try again.';
     status.classList.add('error');
-  } else {
-    status.textContent = 'Application received. Our team will contact you soon.';
-    status.classList.add('success');
-    form.reset();
   }
 
+  /* Reset the form control even when Supabase returns an error. */
   submitButton.disabled = false;
   submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Submit application';
 });
