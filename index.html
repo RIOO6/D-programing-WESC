@@ -9,9 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <!-- FontAwesome Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -263,12 +260,7 @@
 
   <!-- INTERACTIVE JAVASCRIPT -->
   <script>
-    // 1. Supabase Initialization (Keep your exact keys)
-    const SUPABASE_URL = 'https://jopkvmozlubszpddkobj.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcGt2bW96bHVic3pwZGRrb2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3OTU2MzIsImV4cCI6MjEwMzM3MTYzMn0.mzDjqkTRzDS0jwT5v-IR6Okt4PsHc33Ua4xu-grgTVU';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // 2. Scroll Reveal Animations (Intersection Observer)
+    // Scroll Reveal Animations (Intersection Observer)
     const observerOptions = { threshold: 0.15 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

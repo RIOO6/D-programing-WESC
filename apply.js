@@ -9,18 +9,25 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const submitButton = form.querySelector('button[type="submit"]');
   const formData = new FormData(form);
+  const applicant = {
+    name: formData.get('name').trim(),
+    email: formData.get('email').trim().toLowerCase(),
+    phone: formData.get('phone').trim(),
+    course: formData.get('course').trim()
+  };
+
+  if (applicant.name.length < 2 || applicant.phone.length < 7) {
+    status.textContent = 'Please enter a valid name and phone number.';
+    status.className = 'form-status error';
+    return;
+  }
 
   submitButton.disabled = true;
   submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending application...';
   status.textContent = '';
   status.className = 'form-status';
 
-  const { error } = await supabaseClient.from('regestration').insert([{
-    name: formData.get('name'),
-    email: formData.get('email'),
-    phone: formData.get('phone'),
-    course: formData.get('course')
-  }]);
+  const { error } = await supabaseClient.from('applications').insert([applicant]);
 
   if (error) {
     status.textContent = 'We could not submit your application. Please try again.';
