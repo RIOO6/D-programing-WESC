@@ -1,5 +1,6 @@
 const SUPABASE_URL = 'https://pptpbtzrqkgjulidtzch.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwdHBidHpycWtnanVsaWR0emNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzNTU1MTQsImV4cCI6MjEwNjkzMTUxNH0.fWrjtQ27wwnrsZCzRnLJ55El9Rjt1GIloG2RPGw_OcI';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const form = document.querySelector('.detail-form');
 const status = document.querySelector('.form-status');
 
