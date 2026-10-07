@@ -3,20 +3,37 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const form = document.querySelector('.detail-form');
 const status = document.querySelector('.form-status');
+const honeypot = document.createElement('input');
+honeypot.type = 'text';
+honeypot.name = 'website';
+honeypot.tabIndex = -1;
+honeypot.autocomplete = 'off';
+honeypot.setAttribute('aria-hidden', 'true');
+honeypot.className = 'form-trap';
+form.prepend(honeypot);
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const submitButton = form.querySelector('button[type="submit"]');
   const formData = new FormData(form);
+  if (String(formData.get('website') || '').trim()) {
+    form.reset();
+    return;
+  }
+
   const applicant = {
-    name: formData.get('name').trim(),
-    email: formData.get('email').trim().toLowerCase(),
-    phone: formData.get('phone').trim(),
-    course: formData.get('course').trim()
+    name: String(formData.get('name') || '').trim(),
+    email: String(formData.get('email') || '').trim().toLowerCase(),
+    phone: String(formData.get('phone') || '').trim(),
+    course: String(formData.get('course') || '').trim()
   };
 
-  if (applicant.name.length < 2 || applicant.phone.length < 7) {
-    status.textContent = 'Please enter a valid name and phone number.';
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (applicant.name.length < 2 || applicant.name.length > 120 ||
+      !emailPattern.test(applicant.email) || applicant.email.length > 254 ||
+      applicant.phone.length < 7 || applicant.phone.length > 40 ||
+      applicant.course.length < 2 || applicant.course.length > 160) {
+    status.textContent = 'Please check your name, email, phone number, and course.';
     status.className = 'form-status error';
     return;
   }
@@ -30,10 +47,10 @@ form.addEventListener('submit', async (event) => {
     const { error } = await supabaseClient.from('applications').insert([applicant]);
 
     if (error) {
-      console.error('Application submission failed:', error);
+      console.error('Application submission failed:', error.code, error.message);
       status.textContent = error.code === 'PGRST205'
-        ? 'The applications table is not set up yet. Run database.sql in Supabase SQL Editor.'
-        : `Application failed: ${error.message}`;
+        ? 'Applications are temporarily unavailable. Please contact the training center.'
+        : 'Application could not be submitted. Please try again later.';
       status.classList.add('error');
     } else {
       status.textContent = 'Application received. Our team will contact you soon.';
